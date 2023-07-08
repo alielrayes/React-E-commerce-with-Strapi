@@ -1,8 +1,13 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 import { AddShoppingCartOutlined } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { useState } from "react";
 
-const ProductDetails = () => {
+const ProductDetails = ({ clickedProduct }) => {
+  const [selectedImg, setselectedImg] = useState(0);
   return (
     <Box
       sx={{
@@ -12,36 +17,79 @@ const ProductDetails = () => {
         flexDirection: { xs: "column", sm: "row" },
       }}
     >
-      <Box sx={{display: "flex"}}>
-        <img width={300} src="src/images/1.jpg" alt="" />
+      <Box sx={{ display: "flex" }}>
+        <img
+          width={360}
+          src={
+            clickedProduct.attributes.productImg.data[selectedImg].attributes
+              .url
+          }
+          alt=""
+        />
       </Box>
 
-      <Box sx={{textAlign: {xs: "center", sm: "left"}}}  >
-        <Typography variant="h5">WOMEN'S FASHION</Typography>
+      <Box sx={{ py: 2, textAlign: { xs: "center", sm: "left" } }}>
+        <Typography variant="h5">
+          {clickedProduct.attributes.productTitle}
+        </Typography>
         <Typography my={0.4} fontSize={"22px"} color={"crimson"} variant="h6">
-          $12.99
+          ${clickedProduct.attributes.productPrice}
         </Typography>
         <Typography variant="body1">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {clickedProduct.attributes.productDescription}
         </Typography>
 
-        <Stack sx={{justifyContent: {xs: "center", sm: "left"}}} direction={"row"} gap={1} my={2}>
-          {["src/images/1.jpg", "src/images/2.jpg"].map((item) => {
-            return (
-              <img
-                style={{ borderRadius: 3 }}
-                height={100}
-                width={90}
-                key={item}
-                src={item}
-                alt=""
-              />
-            );
-          })}
+        <Stack
+          sx={{ justifyContent: { xs: "center", sm: "left" } }}
+          direction={"row"}
+          gap={1}
+          my={2}
+        >
+          <ToggleButtonGroup
+            value={selectedImg}
+            exclusive
+            sx={{
+              ".Mui-selected": {
+                border: "1px solid royalblue !important",
+                borderRadius: "5px !important",
+                opacity: "1",
+                backgroundColor: "initial",
+              },
+            }}
+          >
+            {clickedProduct.attributes.productImg.data.map((item, index) => {
+              return (
+                <ToggleButton
+                  key={item.id}
+                  value={index}
+                  sx={{
+                    width: "110px",
+                    height: "110px",
+                    mx: 1,
+                    p: "0",
+                    opacity: "0.5",
+                  }}
+                >
+                  <img
+                    onClick={() => {
+                      setselectedImg(index);
+                    }}
+                    style={{ borderRadius: 3 }}
+                    height={"100%"}
+                    width={"100%"}
+                    src={item.attributes.url}
+                    alt=""
+                  />
+                </ToggleButton>
+              );
+            })}
+          </ToggleButtonGroup>
         </Stack>
 
-        <Button sx={{mb: {xs: 1, sm: 0} ,textTransform: "capitalize" }} variant="contained">
+        <Button
+          sx={{ mb: { xs: 1, sm: 0 }, textTransform: "capitalize" }}
+          variant="contained"
+        >
           <AddShoppingCartOutlined sx={{ mr: 1 }} fontSize="small" />
           Buy now
         </Button>

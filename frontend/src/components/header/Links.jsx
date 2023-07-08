@@ -32,10 +32,10 @@ const Links = ({ title }) => {
           left: "50%",
           transform: " translateX(-50%)",
           display: "none",
-          zIndex: 2
+          zIndex: 2,
         }}
       >
-        <Paper sx={{ mt: 2,  }} className=" ">
+        <Paper sx={{ mt: 2 }} className=" ">
           <nav aria-label="secondary mailbox folders">
             <List>
               <ListItem disablePadding>

@@ -37,7 +37,6 @@ function App() {
 
         <Footer />
 
-
         <ScrollToTop />
       </ThemeProvider>
     </ColorModeContext.Provider>
